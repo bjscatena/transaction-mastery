@@ -3,6 +3,15 @@ marp: true
 theme: default
 ---
 
+```css
+/* ... seu CSS de tema ... */
+
+/* CLASSE ESPECIAL PARA ENCOLHER O CONTEÚDO /
+section.shrink {
+font-size: 0.8em; / Você pode ajustar esse valor */
+}
+```
+
 # @Transactional mastery
 ## Além do padrão
 
@@ -96,6 +105,8 @@ Se o "I" garante Isolamento, por que ainda existem problemas de concorrência?
 Dirty read ocorre quando uma transação lê dados alterados por outra transação que ainda não foram confirmados. Se a primeira transação for revertida, a segunda terá lido dados inválidos.
 
 ---
+
+_class: shrink
 
 # Anomalia: Leitura Suja (Dirty Read)
 
