@@ -2,6 +2,7 @@
 marp: true
 theme: default
 ---
+![bg](https://github.com/user-attachments/assets/0c69087e-88ee-43bd-aecd-b35b51d24133)
 
 # @Transactional mastery
 ## Além do padrão
