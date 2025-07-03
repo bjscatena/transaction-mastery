@@ -103,10 +103,6 @@ Dirty read ocorre quando uma transação lê dados alterados por outra transaç�
 
 ---
 
-<!--
-class: shrink
--->
-
 # Anomalia: Leitura Suja (Dirty Read)
 
 | Passo | Transação A (Site)<br>`READ_UNCOMMITTED` | Transação B (Promo) | Banco<br>(Preço Real) |
@@ -119,6 +115,8 @@ class: shrink
 | **6** | | ⚠️ **Erro!** <br> `ROLLBACK;` | `R$ 100,00` |
 | **7** | `COMMIT;` | | `R$ 100,00` |
 | **Resumo:** | **Anunciou preço falso!** | **Operação desfeita.** | **Preço nunca foi R$10.** |
+
+{: .shrink }
 
 ---
 
