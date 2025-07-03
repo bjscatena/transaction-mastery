@@ -1,9 +1,6 @@
 ---
 marp: true
 theme: uncover
-class:
-  - lead
-paginate: true
 ---
 
 # @Transactional mastery
