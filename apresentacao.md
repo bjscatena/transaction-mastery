@@ -4,8 +4,8 @@ theme: default
 ---
 
 <style>
-section.shrink {
-  font-size: 0.75em; /* <<-- AJUSTE ESTE VALOR SE PRECISAR */
+table.shrink {
+  font-size: 0.9em;
 }
 </style>
 
