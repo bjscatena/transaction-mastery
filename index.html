@@ -81,9 +81,9 @@
 <thead>
 <tr>
 <th style="text-align:left">Passo</th>
-<th style="text-align:left">Transação A (Site - <code>READ_UNCOMMITTED</code>)</th>
-<th style="text-align:left">Transação B (Promoção)</th>
-<th style="text-align:left">Estado <strong>Real</strong> no Banco (Preço)</th>
+<th style="text-align:left">Transação A (Site)<br /><code>READ_UNCOMMITTED</code></th>
+<th style="text-align:left">Transação B (Promo)</th>
+<th style="text-align:left">Banco<br />(Preço Real)</th>
 </tr>
 </thead>
 <tbody>
@@ -96,8 +96,8 @@
 <tr>
 <td style="text-align:left"><strong>2</strong></td>
 <td style="text-align:left"></td>
-<td style="text-align:left"><code>UPDATE produto SET preco = 10.00;</code></td>
-<td style="text-align:left"><code>R$ 100,00</code> (Mudança da B está &quot;suja&quot;)</td>
+<td style="text-align:left"><code>UPDATE preco = 10.00;</code></td>
+<td style="text-align:left"><code>R$ 100,00</code> (dado &quot;sujo&quot;)</td>
 </tr>
 <tr>
 <td style="text-align:left"><strong>3</strong></td>
@@ -107,13 +107,13 @@
 </tr>
 <tr>
 <td style="text-align:left"><strong>4</strong></td>
-<td style="text-align:left"><code>SELECT preco FROM produto;</code> <br /> <img class="emoji" draggable="false" alt="➡️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/27a1.svg" data-marp-twemoji=""/> <strong>Lê <code>R$ 10,00</code></strong></td>
+<td style="text-align:left"><code>SELECT preco;</code> <br /> <img class="emoji" draggable="false" alt="➡️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/27a1.svg" data-marp-twemoji=""/> <strong>Lê <code>R$ 10,00</code></strong></td>
 <td style="text-align:left"></td>
 <td style="text-align:left"><code>R$ 100,00</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><strong>5</strong></td>
-<td style="text-align:left"><strong>Exibe o preço &quot;sujo&quot; de R$10,00!</strong></td>
+<td style="text-align:left"><strong>Exibe R$10,00 no site!</strong></td>
 <td style="text-align:left"></td>
 <td style="text-align:left"><code>R$ 100,00</code></td>
 </tr>
@@ -130,14 +130,13 @@
 <td style="text-align:left"><code>R$ 100,00</code></td>
 </tr>
 <tr>
-<td style="text-align:left"><strong>Resultado:</strong></td>
-<td style="text-align:left"><strong>Site anunciou um preço falso!</strong></td>
+<td style="text-align:left"><strong>Resumo:</strong></td>
+<td style="text-align:left"><strong>Anunciou preço falso!</strong></td>
 <td style="text-align:left"><strong>Operação desfeita.</strong></td>
-<td style="text-align:left"><strong>Dado nunca foi R$10,00.</strong></td>
+<td style="text-align:left"><strong>Preço nunca foi R$10.</strong></td>
 </tr>
 </tbody>
 </table>
-<br />
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="13" data-theme="default" lang="C" style="--theme:default;">
 <h1 id="non-repeatable-reads">Non-Repeatable Reads</h1>
