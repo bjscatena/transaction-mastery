@@ -7,8 +7,8 @@ footer: 'Seu Nome | Seu GitHub: github.com/seu-usuario'
 paginate: true
 ---
 
-# **Desvendando o `@Transactional`**
-## Muito além do padrão
+# @Transactional mastery
+## Além do padrão
 
 **Seu Nome**
 Engenheiro de Software Sênior
