@@ -9,23 +9,25 @@ section.shrink table {
 }
 </style>
 
-# @Transactional mastery
-## Além do padrão
+# 💡 **@Transactional Mastery**
+### Muito além do padrão
 
 **Bruno Scatena**
 
-*https://github.com/bjscatena*
+[https://github.com/bjscatena](https://github.com/bjscatena)
 
 ---
 
-# Problema básico
+# 🏦 **Problema clássico**
 
-1. Debitar R$100 da Conta A.
-2. Creditar R$100 na Conta B.
+1. Debitar R$100 da Conta A  
+2. Creditar R$100 na Conta B
+
+🔄 Operação deve ser **atômica e segura**.
 
 ---
 
-# `@Transactional`
+# ⚡ **@Transactional no Spring**
 
 ```java
 @Service
@@ -33,16 +35,15 @@ public class TransferenciaService {
 
     @Transactional
     public void executar(TransferenciaDTO dto) {
-        // ... lógica para debitar e creditar ...
+        // lógica para debitar e creditar
     }
 }
 ```
-
 ---
 
-# **O Alicerce: ACID**
+# 🚀 **O Alicerce: ACID**
 
-Contrato de garantias
+O contrato de garantias de toda transação
 
 - **A**tomicidade
 - **C**onsistência
@@ -53,44 +54,45 @@ Contrato de garantias
 
 ---
 
-# **A**tomicidade
+# 🧩 **A**tomicidade
 ### Tudo ou Nada
 
-Uma transação é uma operação atômica. Ou todas as suas partes são executadas com sucesso, ou nenhuma delas é. Não existe "meio-sucesso".
+Uma transação é indivisível.  
+Ou todas as operações são executadas com sucesso, ou nenhuma é.  
+**Não existe meio-sucesso.**
 
 ---
 
-# **C**onsistência
+# 🛡️ **C**onsistência
 ### Mantendo as Regras
 
-A transação garante que o banco de dados sempre saia de um estado válido para outro estado válido, respeitando todas as regras definidas.
+Assegura que o banco de dados vá de um estado **válido para outro válido**, respeitando todas as regras e restrições definidas.
 
 ---
 
-# **I**solamento
+# 🧭 **I**solamento
 ### Trabalhando em Silêncio
 
-Garante que transações rodando ao mesmo tempo não interfiram umas nas outras. O trabalho de uma transação fica invisível para as outras até que seja concluído.
+Garante que transações simultâneas **não interfiram** entre si.  
+As alterações de uma transação **ficam invisíveis** para as outras até serem confirmadas.
 
 ---
 
-# **D**urabilidade
+# 🗿 **D**urabilidade
 ### Escrito em Pedra
 
-Uma vez que a transação é confirmada (`COMMIT`), a mudança é permanente e sobreviverá a qualquer falha do sistema, como uma queda de energia.
+Após o `COMMIT`, as mudanças se tornam **permanentes** e resistem a falhas, como quedas de energia ou travamentos.
 
 ---
 
----
-
-# **O "I" do ACID na Prática**
+# 🔍 **O "I" do ACID na Prática**
 ### Níveis de Isolamento
 
-Se o "I" garante Isolamento, por que ainda existem problemas de concorrência?
+Se o **Isolamento** existe, por que ainda temos problemas de concorrência?
 
-:white_check_mark: Isolamento X 🐢 Performance
+✅ **Isolamento** vs 🐢 **Performance**
 
-<br>🦸 **Níveis de Isolamento**.
+<br>🦸 **Níveis de Isolamento** ajudam a equilibrar essa balança.
 
 ![bg left](https://github.com/user-attachments/assets/b29e78ae-dc57-426d-93c9-f48e17978ba1)
 
