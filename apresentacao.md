@@ -15,8 +15,6 @@ paginate: true
 
 ---
 
-![bg right:40% fit](https://i.imgur.com/g1f52Yq.png)
-
 # O Problema Universal
 
 ### A transferência bancária
