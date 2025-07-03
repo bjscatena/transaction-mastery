@@ -43,7 +43,7 @@ Contrato de garantias
 - **I**solamento
 - **D**urabilidade
 
-![bg right](https://github.com/user-attachments/assets/8ee6f3d2-6fb3-45ac-9ea0-84322b67341c)
+![bg right:33%](https://github.com/user-attachments/assets/8ee6f3d2-6fb3-45ac-9ea0-84322b67341c)
 
 ---
 
