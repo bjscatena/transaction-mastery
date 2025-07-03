@@ -82,7 +82,9 @@ Uma vez que a transação é confirmada (`COMMIT`), a mudança é permanente e s
 
 Se o "I" garante Isolamento, por que ainda existem problemas de concorrência?
 
-Porque o isolamento perfeito custa caro em performance. Para equilibrar, os bancos de dados nos oferecem **Níveis de Isolamento**.
+:white_check_mark: Isolamento X 🐢 Performance
+
+<br>🦸 **Níveis de Isolamento**.
 
 ![bg left](https://github.com/user-attachments/assets/b29e78ae-dc57-426d-93c9-f48e17978ba1)
 
@@ -94,51 +96,43 @@ Porque o isolamento perfeito custa caro em performance. Para equilibrar, os banc
 Dirty read ocorre quando uma transação lê dados alterados por outra transação que ainda não foram confirmados. Se a primeira transação for revertida, a segunda terá lido dados inválidos.
 
 ---
-<div>
 
-### Transação A
-#### (Relatório do Site)
+# Anomalia: Leitura Suja (Dirty Read)
 
-`ISOLATION = READ_UNCOMMITTED`
+| Passo | Transação A (Site - `READ_UNCOMMITTED`) | Transação B (Promoção) | Estado **Real** no Banco (Preço) |
+| :--- | :--- | :--- | :--- |
+| **1** | | `BEGIN;` | `R$ 100,00` |
+| **2** | | `UPDATE produto SET preco = 10.00;` | `R$ 100,00` (Mudança da B está "suja") |
+| **3** | `BEGIN;` | | `R$ 100,00` |
+| **4** | `SELECT preco FROM produto;` <br> ➡️ **Lê `R$ 10,00`** | | `R$ 100,00` |
+| **5** | **Exibe o preço "sujo" de R$10,00!** | | `R$ 100,00` |
+| **6** | | ⚠️ **Erro!** <br> `ROLLBACK;` | `R$ 100,00` |
+| **7** | `COMMIT;` | | `R$ 100,00` |
+| **Resultado:** | **Site anunciou um preço falso!** | **Operação desfeita.** | **Dado nunca foi R$10,00.** |
 
-**3.** Inicia a leitura para mostrar os preços na vitrine do site.
-
-**4.** `SELECT preco FROM produto WHERE id = 123;`
-   - **Resultado: `R$ 10,00`**
-
-**5.** O site exibe o produto por **R$ 10,00** para todos os clientes!
-
-</div>
-
-<div>
-
-### Transação B
-#### (Promoção Relâmpago)
-
-**1.** **INICIA TRANSAÇÃO**
-
-**2.** Aplica um desconto agressivo.
-   `UPDATE produto SET preco = 10.00 WHERE id = 123;`
-   *(Ainda não commitou!)*
-
-**6.** Ocorre um erro de negócio! A promoção é inviável.
-   **`ROLLBACK;`**
-
-**7.** O preço do produto volta a ser o original no banco.
-
-</div>
+<br>
 
 ---
 
-# O Desastre do Dirty Read
+# Non-Repeatable Reads
 
-### O que aconteceu?
-
-A **Transação A** leu um dado "sujo", um valor que existiu por um instante mas que nunca foi confirmado.
-
-**Resultado:** O site anunciou um produto por um preço extremamente baixo que, na realidade, nunca foi válido. Isso gera frustração no cliente e um problema de negócio.
-
-É por isso que o nível `READ_UNCOMMITTED` é muito perigoso e quase nunca utilizado.
+Non-repeatable read ocorre quando uma transação lê um dado, outra transação o altera e, ao reler, o valor mudou. Diferente de dirty read, aqui o dado já foi commitado, mas causa problemas por mudar entre leituras.
 
 ---
 
+# Anomalia: Leitura Não Repetível
+
+| Passo | Transação A (Lógica de Venda - `READ_COMMITTED`) | Transação B (Ajuste de Estoque) | Estado **Real** no Banco (Estoque) |
+| :--- | :--- | :--- | :--- |
+| **1** | `BEGIN;` | | `10` |
+| **2** | `SELECT estoque FROM produto WHERE id=123;` <br> ➡️ **Lê `10`** | | `10` |
+| **3** | *(Faz uma verificação de regra de negócio...)* | `BEGIN;` | `10` |
+| **4** | | `UPDATE produto SET estoque = 9 WHERE id=123;` | `10` (Mudança da B não commitada) |
+| **5** | | `COMMIT;` | **`9`** |
+| **6** | *(Precisa verificar o estoque de novo...)*<br>`SELECT estoque FROM produto WHERE id=123;` <br> ➡️ **Lê `9`** | | `9`|
+| **7** | `// O valor mudou no meio da minha transação!` | | `9`|
+| **Resultado:** | **Lógica inconsistente!** | **Operação bem-sucedida.** | **Dado foi alterado.**|
+
+<br>
+
+---
