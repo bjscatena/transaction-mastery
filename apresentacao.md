@@ -50,8 +50,6 @@ O contrato de garantias de toda transação
 - **I**solamento
 - **D**urabilidade
 
-![bg right](https://github.com/user-attachments/assets/8ee6f3d2-6fb3-45ac-9ea0-84322b67341c)
-
 ---
 
 # 🧩 **A**tomicidade
@@ -93,9 +91,6 @@ Se o **Isolamento** existe, por que ainda temos problemas de concorrência?
 ✅ **Isolamento** vs 🐢 **Performance**
 
 <br>🦸 **Níveis de Isolamento** ajudam a equilibrar essa balança.
-
-![bg left](https://github.com/user-attachments/assets/b29e78ae-dc57-426d-93c9-f48e17978ba1)
-
 
 ---
 
@@ -165,4 +160,41 @@ class: shrink
 | | `COMMIT` | T2 confirma |
 | `SELECT * FROM pedidos WHERE valor > 100` | | T1 relê e vê 4 pedidos (**linha fantasma apareceu**) |
 | `COMMIT` | | T1 finaliza |
+
 ---
+
+# 🛡️ **@Transactional: Isolation**
+### Controle de concorrência
+
+O `@Transactional` permite configurar o **nível de isolamento** da transação:
+
+- `READ_UNCOMMITTED`
+- `READ_COMMITTED`
+- `REPEATABLE_READ`
+- `SERIALIZABLE`
+
+🔍 Cada nível controla **quais problemas de leitura** podem ocorrer em transações simultâneas.
+
+---
+
+# 🧩 **Isolation Levels x Problemas**
+
+| **Isolation**           | **Previne**               |
+|--------------------------|----------------------------|
+| `READ_UNCOMMITTED` | Nada (permite dirty read) |
+| `READ_COMMITTED`   | Dirty read                 |
+| `REPEATABLE_READ`  | Dirty read, non-repeatable read |
+| `SERIALIZABLE`     | Dirty read, non-repeatable read, phantom read |
+
+💡 **Quanto maior o isolamento, menor a concorrência e maior a segurança.**
+
+---
+
+# 🏛️ **Oracle e Isolation Levels**
+
+- O Oracle **não suporta** `READ_UNCOMMITTED`.  
+- O nível mínimo é **`READ_COMMITTED`** (padrão).  
+- **Não existe `REPEATABLE_READ`** no Oracle; ele vai direto para **`SERIALIZABLE`**.
+
+⚠️ Isso deve ser considerado ao configurar isolamento no Spring com Oracle.
+
