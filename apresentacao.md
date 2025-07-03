@@ -3,14 +3,11 @@ marp: true
 theme: default
 ---
 
-```css
-/* ... seu CSS de tema ... */
-
-/* CLASSE ESPECIAL PARA ENCOLHER O CONTEÚDO /
+<style>
 section.shrink {
-font-size: 0.8em; / Você pode ajustar esse valor */
+  font-size: 0.75em; /* <<-- AJUSTE ESTE VALOR SE PRECISAR */
 }
-```
+</style>
 
 # @Transactional mastery
 ## Além do padrão
@@ -106,7 +103,9 @@ Dirty read ocorre quando uma transação lê dados alterados por outra transaç�
 
 ---
 
-_class: shrink
+<!--
+class: shrink
+-->
 
 # Anomalia: Leitura Suja (Dirty Read)
 
