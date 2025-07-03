@@ -97,53 +97,70 @@ Se o "I" garante Isolamento, por que ainda existem problemas de concorrência?
 
 ---
 
-# Dirty reads
+# 💩 Dirty Read
 
-Dirty read ocorre quando uma transação lê dados alterados por outra transação que ainda não foram confirmados. Se a primeira transação for revertida, a segunda terá lido dados inválidos.
+Quando uma transação lê dados alterados por outra transação que **ainda não foram confirmados (commit)**.  
+Se a outra transação fizer rollback, a leitura foi de um dado que **nunca existiu**.
 
 ---
 
 <!--
 class: shrink
 -->
+# 💩 Dirty Read
 
-# Anomalia: Leitura Suja (Dirty Read)
-
-| Passo | Transação A (Site)<br>`READ_UNCOMMITTED` | Transação B (Promo) | Banco<br>(Preço Real) |
-| :--- | :--- | :--- | :--- |
-| **1** | | `BEGIN;` | `R$ 100,00` |
-| **2** | | `UPDATE preco = 10.00;` | `R$ 100,00` (dado "sujo") |
-| **3** | `BEGIN;` | | `R$ 100,00` |
-| **4** | `SELECT preco;` <br> ➡️ **Lê `R$ 10,00`** | | `R$ 100,00` |
-| **5** | **Exibe R$10,00 no site!** | | `R$ 100,00` |
-| **6** | | ⚠️ **Erro!** <br> `ROLLBACK;` | `R$ 100,00` |
-| **7** | `COMMIT;` | | `R$ 100,00` |
-| **Resumo:** | **Anunciou preço falso!** | **Operação desfeita.** | **Preço nunca foi R$10.** |
+| **Transação A** | **Transação B** | **Observação** |
+|-----------------|-----------------|----------------|
+| `BEGIN` | | T1 inicia |
+| `UPDATE conta SET saldo = saldo - 100 WHERE id = 1` | | T1 debita 100, mas **não commita** |
+| | `BEGIN` | T2 inicia |
+| | `SELECT saldo FROM conta WHERE id = 1` | T2 lê o saldo já alterado por T1 (**dirty read**) |
+| `ROLLBACK` | | T1 faz rollback, saldo volta ao original |
+| | | T2 leu um valor que **nunca existiu** no banco |
 
 ---
 
-# Non-Repeatable Reads
+# 🔁 Non-Repeatable Read
 
-Non-repeatable read ocorre quando uma transação lê um dado, outra transação o altera e, ao reler, o valor mudou. Diferente de dirty read, aqui o dado já foi commitado, mas causa problemas por mudar entre leituras.
+Ocorre quando uma transação lê um dado, outra transação o altera e confirma, e ao reler, o valor mudou.  
+A mesma consulta retorna **resultados diferentes** na mesma transação.
 
 ---
 <!--
 class: shrink
 -->
 
-# Anomalia: Leitura Não Repetível
+# 🔁 Non-Repeatable Read
 
-| Passo | Transação A (Lógica de Venda - `READ_COMMITTED`) | Transação B (Ajuste de Estoque) | Estado **Real** no Banco (Estoque) |
-| :--- | :--- | :--- | :--- |
-| **1** | `BEGIN;` | | `10` |
-| **2** | `SELECT estoque FROM produto WHERE id=123;` <br> ➡️ **Lê `10`** | | `10` |
-| **3** | *(Faz uma verificação de regra de negócio...)* | `BEGIN;` | `10` |
-| **4** | | `UPDATE produto SET estoque = 9 WHERE id=123;` | `10` (Mudança da B não commitada) |
-| **5** | | `COMMIT;` | **`9`** |
-| **6** | *(Precisa verificar o estoque de novo...)*<br>`SELECT estoque FROM produto WHERE id=123;` <br> ➡️ **Lê `9`** | | `9`|
-| **7** | `// O valor mudou no meio da minha transação!` | | `9`|
-| **Resultado:** | **Lógica inconsistente!** | **Operação bem-sucedida.** | **Dado foi alterado.**|
+| **Transação A** | **Transação B** | **Observação** |
+|-----------------|-----------------|----------------|
+| `BEGIN` | | T1 inicia |
+| `SELECT saldo FROM conta WHERE id = 1` | | T1 lê saldo = 500 |
+| | `BEGIN` | T2 inicia |
+| | `UPDATE conta SET saldo = 600 WHERE id = 1` | T2 altera saldo |
+| | `COMMIT` | T2 confirma alteração |
+| `SELECT saldo FROM conta WHERE id = 1` | | T1 relê e vê saldo = 600 (**valor mudou**) |
+| `COMMIT` | | T1 finaliza |
 
-<br>
+---
 
+# 👻 Phantom Read
+
+Acontece quando uma transação lê um conjunto de linhas com um filtro, outra transação insere (ou deleta) linhas que também satisfazem esse filtro, e ao reler, a primeira transação vê **linhas novas ou faltantes**.
+
+---
+<!--
+class: shrink
+-->
+# 👻 Phantom Read
+
+| **Transação A** | **Transação B** | **Observação** |
+|-----------------|-----------------|----------------|
+| `BEGIN` | | T1 inicia |
+| `SELECT * FROM pedidos WHERE valor > 100` | | T1 lê 3 pedidos |
+| | `BEGIN` | T2 inicia |
+| | `INSERT INTO pedidos (id, valor) VALUES (999, 150)` | T2 insere novo pedido |
+| | `COMMIT` | T2 confirma |
+| `SELECT * FROM pedidos WHERE valor > 100` | | T1 relê e vê 4 pedidos (**linha fantasma apareceu**) |
+| `COMMIT` | | T1 finaliza |
 ---
