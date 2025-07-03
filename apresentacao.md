@@ -1,6 +1,6 @@
 ---
 marp: true
-theme: uncover
+theme: gaia
 ---
 
 # @Transactional mastery
