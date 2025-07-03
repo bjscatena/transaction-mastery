@@ -5,7 +5,7 @@ theme: default
 
 <style>
 section.shrink table {
-  font-size: 0.75em;
+  font-size: 0.6em;
 }
 </style>
 
@@ -127,6 +127,9 @@ class: shrink
 Non-repeatable read ocorre quando uma transação lê um dado, outra transação o altera e, ao reler, o valor mudou. Diferente de dirty read, aqui o dado já foi commitado, mas causa problemas por mudar entre leituras.
 
 ---
+<!--
+class: shrink
+-->
 
 # Anomalia: Leitura Não Repetível
 
