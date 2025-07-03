@@ -1,6 +1,5 @@
 name: Deploy Marp Presentation to GitHub Pages
 
-# Dispara a automação toda vez que houver um push no branch 'main'
 on:
   push:
     branches:
@@ -8,26 +7,24 @@ on:
 
 jobs:
   build-and-deploy:
+    # A permissão que faltava:
+    permissions:
+      contents: write
+      
     runs-on: ubuntu-latest
     steps:
-      # Passo 1: Pega uma cópia do seu repositório
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Passo 2: Instala o Marp CLI
       - name: Setup Marp CLI
         run: npm install -g @marp-team/marp-cli
 
-      # Passo 3: Converte o .md para .html
-      # A flag --allow-local-files é essencial para as imagens que você colou funcionarem
       - name: Build presentation
         run: marp apresentacao.md -o index.html --html --allow-local-files
 
-      # Passo 4: Publica o HTML gerado no GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .
-          # Garante que só o index.html seja publicado, mantendo o branch limpo
           keep_files: false
