@@ -5,14 +5,6 @@ class:
   - lead
 paginate: true
 ---
-<style>
-section {
-  padding: 15%;
-}
-
-</style>
-
----
 
 # @Transactional mastery
 ## Além do padrão
