@@ -10,7 +10,7 @@ section.shrink table {
 </style>
 
 # 💡 **@Transactional Mastery**
-### Muito além do padrão
+### Além do padrão
 
 **Bruno Scatena**
 
