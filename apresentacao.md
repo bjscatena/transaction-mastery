@@ -1,6 +1,6 @@
 ---
 marp: true
-theme: gaia
+theme: default
 ---
 
 # @Transactional mastery
