@@ -30,6 +30,7 @@ public class TransferenciaService {
         // ... lógica para debitar e creditar ...
     }
 }
+```
 
 ---
 
@@ -41,6 +42,8 @@ Contrato de garantias
 - **C**onsistência
 - **I**solamento
 - **D**urabilidade
+
+![image](https://github.com/user-attachments/assets/8ee6f3d2-6fb3-45ac-9ea0-84322b67341c)
 
 ---
 
