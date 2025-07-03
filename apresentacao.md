@@ -3,9 +3,36 @@ marp: true
 theme: uncover
 class:
   - lead
-footer: 'Seu Nome | Seu GitHub: github.com/seu-usuario'
 paginate: true
 ---
+<style>
+section {
+  background: #282a36;
+  color: #f8f8f2;
+  padding: 60px;
+}
+
+h1, h2, h3 {
+  color: #bd93f9; /* Roxo */
+  text-align: left;
+  border-bottom: none;
+  background: none;
+}
+
+a {
+  color: #8be9fd; /* Ciano */
+}
+
+strong {
+    color: #50fa7b; /* Verde */
+}
+
+code {
+    background-color: #44475a;
+    border-radius: 5px;
+    padding: 2px 5px;
+}
+</style>
 
 # @Transactional mastery
 ## Além do padrão
