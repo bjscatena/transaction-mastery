@@ -41,6 +41,21 @@ public class TransferenciaService {
 ```
 ---
 
+# ⚙️ **@Transactional: Valores Padrão**
+### Entendendo o comportamento padrão
+
+Quando você usa `@Transactional` sem configurar nada, o Spring aplica:
+
+- **Propagation:** `REQUIRED` (usa a transação existente ou cria uma nova)  
+- **Isolation:** `DEFAULT` (usa o nível padrão do banco, ex: READ_COMMITTED no Oracle/MySQL)  
+- **readOnly:** `false` (transação permite leitura e escrita)  
+- **timeout:** indefinido (espera indefinidamente)  
+- **rollbackFor:** só rola rollback para exceções unchecked (RuntimeException)
+
+🔍 Saber isso ajuda a entender o que acontece “por trás dos panos” ao usar `@Transactional`.
+
+---
+
 # 🚀 **O Alicerce: ACID**
 
 O contrato de garantias de toda transação
