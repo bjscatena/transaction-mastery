@@ -99,18 +99,16 @@ Dirty read ocorre quando uma transação lê dados alterados por outra transaç�
 
 # Anomalia: Leitura Suja (Dirty Read)
 
-| Passo | Transação A (Site - `READ_UNCOMMITTED`) | Transação B (Promoção) | Estado **Real** no Banco (Preço) |
+| Passo | Transação A (Site)<br>`READ_UNCOMMITTED` | Transação B (Promo) | Banco<br>(Preço Real) |
 | :--- | :--- | :--- | :--- |
 | **1** | | `BEGIN;` | `R$ 100,00` |
-| **2** | | `UPDATE produto SET preco = 10.00;` | `R$ 100,00` (Mudança da B está "suja") |
+| **2** | | `UPDATE preco = 10.00;` | `R$ 100,00` (dado "sujo") |
 | **3** | `BEGIN;` | | `R$ 100,00` |
-| **4** | `SELECT preco FROM produto;` <br> ➡️ **Lê `R$ 10,00`** | | `R$ 100,00` |
-| **5** | **Exibe o preço "sujo" de R$10,00!** | | `R$ 100,00` |
+| **4** | `SELECT preco;` <br> ➡️ **Lê `R$ 10,00`** | | `R$ 100,00` |
+| **5** | **Exibe R$10,00 no site!** | | `R$ 100,00` |
 | **6** | | ⚠️ **Erro!** <br> `ROLLBACK;` | `R$ 100,00` |
 | **7** | `COMMIT;` | | `R$ 100,00` |
-| **Resultado:** | **Site anunciou um preço falso!** | **Operação desfeita.** | **Dado nunca foi R$10,00.** |
-
-<br>
+| **Resumo:** | **Anunciou preço falso!** | **Operação desfeita.** | **Preço nunca foi R$10.** |
 
 ---
 
