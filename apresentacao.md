@@ -7,78 +7,48 @@ paginate: true
 ---
 <style>
 section {
-  padding: 60px;
+  padding: 15%;
 }
 
 </style>
+
+---
 
 # @Transactional mastery
 ## Além do padrão
 
 **Bruno Scatena**
 
----
+*https://github.com/bjscatena*
 
 ---
 
-# **O Alicerce de Tudo: ACID**
+![bg right:40% fit](https://i.imgur.com/g1f52Yq.png)
 
-Toda a "mágica" de uma transação segura se apoia em 4 pilares,
-um acrônimo que garante a paz de espírito de todo desenvolvedor.
+# O Problema Universal
 
-- **A**tomicidade
-- **C**onsistência
-- **I**solamento
-- **D**urabilidade
+### A transferência bancária
 
----
+Imagine o fluxo de uma transferência:
+1. Debitar R$100 da Conta A.
+2. Creditar R$100 na Conta B.
 
-![bg right:30% fit](https://i.imgur.com/pL8d9t6.png)
+E se o sistema cair exatamente entre o passo 1 e o 2?
 
-# **A**tomicidade
-### Tudo ou Nada
-
-A transação é uma unidade indivisível. Ou todas as operações dentro dela funcionam, ou nenhuma funciona.
-
-**Analogia (Mágica):**
-Pense num truque de mágica. Ou o coelho sai da cartola com sucesso (**COMMIT**), ou o truque dá errado e tudo volta exatamente como era antes, sem nenhum vestígio (**ROLLBACK**).
-
-Não existe "meio coelho" fora da cartola.
+O dinheiro sumiu da conta A, mas nunca chegou na B. Como garantimos que operações críticas como essa sejam seguras? **Transação**.
 
 ---
 
-![bg right:30% fit](https://i.imgur.com/2qK3jA2.png)
+# O `@Transactional` Padrão
 
-# **C**onsistência
-### As Regras do Jogo
+No nosso dia a dia, usamos a anotação `@Transactional` e confiamos que a mágica aconteça.
 
-A transação sempre levará o banco de dados de um estado válido para outro, respeitando todas as regras de negócio definidas.
+```java
+@Service
+public class TransferenciaService {
 
-**Analogia (Kickboxing):**
-A transação é o juiz da luta. Ela garante que nenhuma regra seja violada (ex: um saldo ficar negativo). Se uma regra for quebrada, a transação inteira é invalidada, como um golpe ilegal que anula o round.
-
----
-
-![bg right:30% fit](https://i.imgur.com/j3yY2rJ.png)
-
-# **I**solamento
-### Cada Um no Seu Canto
-
-Transações que rodam ao mesmo tempo não podem interferir umas nas outras. Cada uma opera na sua própria "bolha", como se estivesse sozinha no sistema.
-
-**Analogia (Videogame):**
-Imagine dois amigos jogando o mesmo jogo, cada um no seu PS5. O progresso e a bagunça que um faz no seu "save" (sua transação) não afetam em nada o jogo do outro.
-
----
-
-![bg right:30% fit](https://i.imgur.com/lJ4jO3h.png)
-
-# **D**urabilidade
-### Salvou, tá Salvo!
-
-Uma vez que a transação é confirmada com um **COMMIT**, a mudança é permanente e sobreviverá a qualquer falha, seja uma queda de energia ou o sistema travar.
-
-**Analogia (Videogame):**
-É o **save point**. Depois que o ícone de "salvando" some da tela, seu progresso está gravado na memória para sempre. Pode desligar o console, a luz pode acabar, mas quando você voltar, seu progresso estará lá.
-
----
+    @Transactional
+    public void executar(TransferenciaDTO dto) {
+        // ... lógica para debitar e creditar ...
+    }
+}
