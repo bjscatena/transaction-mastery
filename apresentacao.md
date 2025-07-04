@@ -8,6 +8,10 @@ class: lead, center, middle
 section.shrink table {
   font-size: 0.6em;
 }
+
+section.small {
+  font-size: 0.6em;
+}  
 </style>
 
 ![bg right](https://github.com/user-attachments/assets/d8a14318-8ca7-4fe1-b364-2e05db97636f)
@@ -419,9 +423,11 @@ Limita tempo máximo para evitar travamentos no sistema.</li>
 🔹 Compreender o funcionamento do proxy é essencial para entender como o Spring gerencia transações e outras funcionalidades transversais.
 
 ---
+<!--
+class: small
+-->
 
-# 🕰️ Antes do Spring: Gerenciamento Manual com JDBC
-### Exemplo básico de transação manual
+# 🕰️ Antes do Spring
 
 ```java
 Connection conn = dataSource.getConnection();
