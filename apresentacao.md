@@ -99,7 +99,7 @@ Se o **Isolamento** existe, por que ainda temos problemas de concorrência?
 
 <br>🦸 **Níveis de Isolamento** ajudam a equilibrar essa balança.
 
-![bg left](https://github.com/user-attachments/assets/fe4e61e4-2045-44ef-a169-e7368dfa716e)
+![bg left:40%](https://github.com/user-attachments/assets/fe4e61e4-2045-44ef-a169-e7368dfa716e)
 
 
 ---
