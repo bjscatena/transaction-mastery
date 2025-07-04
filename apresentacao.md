@@ -15,6 +15,16 @@ pre code {
 table {
   font-size: 0.8em;
 }  
+
+h1 {
+  font-size: 1.8em; /* padrão ~2em, ajuste conforme o desejado */
+}
+h2 {
+  font-size: 1.4em; /* padrão ~1.5em */
+}
+h3 {
+  font-size: 1.1em; /* padrão ~1.17em */
+}
 </style>
 
 ![bg right](https://github.com/user-attachments/assets/d8a14318-8ca7-4fe1-b364-2e05db97636f)
@@ -529,7 +539,7 @@ public class AppConfig {
 ---
 
 
-# ⚠️ Rollback falha ao chamar método transacional via `this`
+# ⚠️ Rollback falha via `this`
 
 ```java
 @Service
