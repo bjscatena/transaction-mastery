@@ -198,7 +198,7 @@ O `@Transactional` permite configurar o **nível de isolamento** da transação:
 
 ---
 
-# 🧩 **Isolation Levels x Problemas**
+# 🧩 Isolation Levels x Problemas
 
 | **Isolation**           | **Previne**               |
 |--------------------------|----------------------------|
@@ -211,7 +211,7 @@ O `@Transactional` permite configurar o **nível de isolamento** da transação:
 
 ---
 
-# 🏛️ **Oracle e Isolation Levels**
+# 🏛️ Oracle e Isolation Levels
 
 - O Oracle **não suporta** `READ_UNCOMMITTED`.  
 - O nível mínimo é **`READ_COMMITTED`** (padrão).  
@@ -221,7 +221,7 @@ O `@Transactional` permite configurar o **nível de isolamento** da transação:
 
 ---
 
-# 🔄 **Propagation**
+# 🔄 Propagation
 ### O que é e por que importa?
 
 Propagation controla como uma transação se comporta quando um método transacional chama outro método transacional.
@@ -230,7 +230,7 @@ Propagation controla como uma transação se comporta quando um método transaci
 
 ---
 
-# 📋 **Principais tipos de Propagation**
+# 📋 Principais tipos de Propagation
 
 - `REQUIRED` (padrão)  
 - `REQUIRES_NEW`  
@@ -349,7 +349,7 @@ Propagation controla como uma transação se comporta quando um método transaci
 
 ---
 
-# ⚙️ **@Transactional: Valores Padrão**
+# ⚙️ @Transactional: Valores Padrão
 ### Entendendo o comportamento padrão
 
 Quando você usa `@Transactional` sem configurar nada, o Spring aplica:

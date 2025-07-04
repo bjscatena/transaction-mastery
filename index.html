@@ -260,7 +260,7 @@ A mesma consulta retorna <strong>resultados diferentes</strong> na mesma transa�
 <p><img class="emoji" draggable="false" alt="🔍" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f50d.svg" data-marp-twemoji=""/> Cada nível controla <strong>quais problemas de leitura</strong> podem ocorrer em transações simultâneas.</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="19" data-class="shrink" data-theme="default" lang="C" class="shrink" style="--class:shrink;--theme:default;">
-<h1 id="%F0%9F%A7%A9-isolation-levels-x-problemas"><img class="emoji" draggable="false" alt="🧩" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f9e9.svg" data-marp-twemoji=""/> <strong>Isolation Levels x Problemas</strong></h1>
+<h1 id="%F0%9F%A7%A9-isolation-levels-x-problemas"><img class="emoji" draggable="false" alt="🧩" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f9e9.svg" data-marp-twemoji=""/> Isolation Levels x Problemas</h1>
 <table>
 <thead>
 <tr>
@@ -290,7 +290,7 @@ A mesma consulta retorna <strong>resultados diferentes</strong> na mesma transa�
 <p><img class="emoji" draggable="false" alt="💡" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f4a1.svg" data-marp-twemoji=""/> <strong>Quanto maior o isolamento, menor a concorrência e maior a segurança.</strong></p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="20" data-class="shrink" data-theme="default" lang="C" class="shrink" style="--class:shrink;--theme:default;">
-<h1 id="%F0%9F%8F%9B%EF%B8%8F-oracle-e-isolation-levels"><img class="emoji" draggable="false" alt="🏛️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f3db.svg" data-marp-twemoji=""/> <strong>Oracle e Isolation Levels</strong></h1>
+<h1 id="%F0%9F%8F%9B%EF%B8%8F-oracle-e-isolation-levels"><img class="emoji" draggable="false" alt="🏛️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f3db.svg" data-marp-twemoji=""/> Oracle e Isolation Levels</h1>
 <ul>
 <li>O Oracle <strong>não suporta</strong> <code>READ_UNCOMMITTED</code>.</li>
 <li>O nível mínimo é <strong><code>READ_COMMITTED</code></strong> (padrão).</li>
@@ -299,13 +299,13 @@ A mesma consulta retorna <strong>resultados diferentes</strong> na mesma transa�
 <p><img class="emoji" draggable="false" alt="⚠️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" data-marp-twemoji=""/> Isso deve ser considerado ao configurar isolamento no Spring com Oracle.</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="21" data-class="shrink" data-theme="default" lang="C" class="shrink" style="--class:shrink;--theme:default;">
-<h1 id="%F0%9F%94%84-propagation"><img class="emoji" draggable="false" alt="🔄" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f504.svg" data-marp-twemoji=""/> <strong>Propagation</strong></h1>
+<h1 id="%F0%9F%94%84-propagation"><img class="emoji" draggable="false" alt="🔄" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f504.svg" data-marp-twemoji=""/> Propagation</h1>
 <h3 id="o-que-%C3%A9-e-por-que-importa">O que é e por que importa?</h3>
 <p>Propagation controla como uma transação se comporta quando um método transacional chama outro método transacional.</p>
 <p><img class="emoji" draggable="false" alt="➡️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/27a1.svg" data-marp-twemoji=""/> Essencial para definir se a transação atual será usada, criada ou suspensa.</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="22" data-class="shrink" data-theme="default" lang="C" class="shrink" style="--class:shrink;--theme:default;">
-<h1 id="%F0%9F%93%8B-principais-tipos-de-propagation"><img class="emoji" draggable="false" alt="📋" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f4cb.svg" data-marp-twemoji=""/> <strong>Principais tipos de Propagation</strong></h1>
+<h1 id="%F0%9F%93%8B-principais-tipos-de-propagation"><img class="emoji" draggable="false" alt="📋" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f4cb.svg" data-marp-twemoji=""/> Principais tipos de Propagation</h1>
 <ul>
 <li><code>REQUIRED</code> (padrão)</li>
 <li><code>REQUIRES_NEW</code></li>
@@ -419,7 +419,7 @@ A mesma consulta retorna <strong>resultados diferentes</strong> na mesma transa�
 <p><img class="emoji" draggable="false" alt="🔹" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f539.svg" data-marp-twemoji=""/> Exemplo: <code>@Transactional(rollbackFor = IOException.class)</code></p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="32" data-class="shrink" data-theme="default" lang="C" class="shrink" style="--class:shrink;--theme:default;">
-<h1 id="%E2%9A%99%EF%B8%8F-transactional-valores-padr%C3%A3o"><img class="emoji" draggable="false" alt="⚙️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2699.svg" data-marp-twemoji=""/> <strong>@Transactional: Valores Padrão</strong></h1>
+<h1 id="%E2%9A%99%EF%B8%8F-transactional-valores-padr%C3%A3o"><img class="emoji" draggable="false" alt="⚙️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2699.svg" data-marp-twemoji=""/> @Transactional: Valores Padrão</h1>
 <h3 id="entendendo-o-comportamento-padr%C3%A3o">Entendendo o comportamento padrão</h3>
 <p>Quando você usa <code>@Transactional</code> sem configurar nada, o Spring aplica:</p>
 <ul>
