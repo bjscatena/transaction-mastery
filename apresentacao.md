@@ -5,13 +5,10 @@ class: lead, center, middle
 ---
 
 <style>
-section.shrink table {
-  font-size: 0.6em;
+section {
+  font-size: 0.9em;
 }
 
-section.small {
-  font-size: 0.8em;
-}  
 </style>
 
 ![bg right](https://github.com/user-attachments/assets/d8a14318-8ca7-4fe1-b364-2e05db97636f)
