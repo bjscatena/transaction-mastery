@@ -10,7 +10,8 @@ section.shrink table {
 }
 </style>
 
-![bg opacity:.1](https://github.com/user-attachments/assets/336c2570-5f05-422b-ba12-2a228d36ff9a)
+![bg opacity:.1](https://github.com/user-attachments/assets/8b4fd813-1d0c-49d0-b57c-ec3d695dbf88)
+
 
 # 🚀 @Transactional Mastery
 
@@ -23,19 +24,18 @@ section.shrink table {
 
 # 📋 O que vamos ver
 
-- Conceitos básicos e valores padrão do `@Transactional`  
-- Problemas de concorrência e níveis de isolamento  
-- Propagation: principais tipos e usos  
-- Como o Spring usa proxy para transações  
-- Por que chamadas internas via `this` falham  
-- Exemplos práticos e soluções
+- ACID
+- Isolamento  
+- Propagation
+- Spring Proxy
+- Usos incorretos e problemas
 
 ---
 
 # 🔄 O que é uma Transação?
 
-- Uma **transação** é um conjunto de operações que são tratadas como uma única unidade lógica.
-- Em resumo, uma transação garante que o sistema fique em um estado correto mesmo diante de falhas.
+- Conjunto de operações que são tratadas como uma única unidade lógica.
+- Garante que o sistema fique em um estado correto mesmo diante de falhas.
 
 ---
 
@@ -60,21 +60,6 @@ public class TransferenciaService {
     }
 }
 ```
----
-
-# ⚙️ **@Transactional: Valores Padrão**
-### Entendendo o comportamento padrão
-
-Quando você usa `@Transactional` sem configurar nada, o Spring aplica:
-
-- **Isolation:** `DEFAULT` (usa o nível padrão do banco, ex: READ_COMMITTED no Oracle/MySQL)  
-- **Propagation:** `REQUIRED` (usa a transação existente ou cria uma nova)  
-- **readOnly:** `false` (transação permite leitura e escrita)  
-- **timeout:** indefinido (espera indefinidamente)  
-- **rollbackFor:** só rola rollback para exceções unchecked (RuntimeException)
-
-🔍 Saber isso ajuda a entender o que acontece “por trás dos panos” ao usar `@Transactional`.
-
 ---
 
 # 🚀 **O Alicerce: ACID**
@@ -373,6 +358,21 @@ Propagation controla como uma transação se comporta quando um método transaci
 - Útil para garantir consistência quando métodos lançam exceções verificadas.
 
 🔹 Exemplo: `@Transactional(rollbackFor = IOException.class)`
+
+---
+
+# ⚙️ **@Transactional: Valores Padrão**
+### Entendendo o comportamento padrão
+
+Quando você usa `@Transactional` sem configurar nada, o Spring aplica:
+
+- **Isolation:** `DEFAULT` (usa o nível padrão do banco, ex: READ_COMMITTED no Oracle/MySQL)  
+- **Propagation:** `REQUIRED` (usa a transação existente ou cria uma nova)  
+- **readOnly:** `false` (transação permite leitura e escrita)  
+- **timeout:** indefinido (espera indefinidamente)  
+- **rollbackFor:** só rola rollback para exceções unchecked (RuntimeException)
+
+🔍 Saber isso ajuda a entender o que acontece “por trás dos panos” ao usar `@Transactional`.
 
 ---
 
