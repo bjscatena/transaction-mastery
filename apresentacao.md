@@ -10,7 +10,7 @@ section.shrink table {
 }
 </style>
 
-![bg opacity:.1](https://github.com/user-attachments/assets/8b4fd813-1d0c-49d0-b57c-ec3d695dbf88)
+![bg right](https://github.com/user-attachments/assets/d8a14318-8ca7-4fe1-b364-2e05db97636f)
 
 
 # 🚀 @Transactional Mastery
