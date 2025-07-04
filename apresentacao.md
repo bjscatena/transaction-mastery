@@ -622,4 +622,7 @@ public class PagamentoService {
 
 [https://github.com/bjscatena](https://github.com/bjscatena)
 
+![bg right](https://github.com/user-attachments/assets/ad16ca88-ea1d-4902-9c07-83dfc3d53b0a)
+
+
 
