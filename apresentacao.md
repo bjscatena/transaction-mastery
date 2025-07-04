@@ -5,10 +5,12 @@ class: lead, center, middle
 ---
 
 <style>
-section {
-  font-size: 0.9em;
+code {
+  font-size: 0.7em;
 }
-
+pre code {
+  font-size: 0.7em;
+}
 </style>
 
 ![bg right](https://github.com/user-attachments/assets/d8a14318-8ca7-4fe1-b364-2e05db97636f)
@@ -117,9 +119,7 @@ Se a outra transação fizer rollback, a leitura foi de um dado que **nunca exis
 
 ---
 
-<!--
-class: shrink
--->
+
 # 💩 Dirty Read
 
 | **Transação A** | **Transação B** | **Observação** |
@@ -139,9 +139,7 @@ Ocorre quando uma transação lê um dado, outra transação o altera e confirma
 A mesma consulta retorna **resultados diferentes** na mesma transação.
 
 ---
-<!--
-class: shrink
--->
+
 
 # 🔁 Non-Repeatable Read
 
@@ -162,9 +160,7 @@ class: shrink
 Acontece quando uma transação lê um conjunto de linhas com um filtro, outra transação insere (ou deleta) linhas que também satisfazem esse filtro, e ao reler, a primeira transação vê **linhas novas ou faltantes**.
 
 ---
-<!--
-class: shrink
--->
+
 # 👻 Phantom Read
 
 | **Transação A** | **Transação B** | **Observação** |
@@ -420,9 +416,7 @@ Limita tempo máximo para evitar travamentos no sistema.</li>
 🔹 Compreender o funcionamento do proxy é essencial para entender como o Spring gerencia transações e outras funcionalidades transversais.
 
 ---
-<!--
-class: small
--->
+
 
 # 🕰️ Antes do Spring
 
@@ -448,9 +442,6 @@ try {
 
 ---
 
-<!--
-class: small
--->
 # 💸 Exemplo básico: Débito e Crédito sem proxy
 
 ```java
@@ -472,9 +463,7 @@ public class ContaService {
 ```
 
 ---
-<!--
-class: small
--->
+
 # 🛡️ Proxy Manual
 
 ```java
@@ -508,9 +497,7 @@ public class ContaServiceProxy extends ContaService {
 }
 ```
 ---
-<!--
-class: small
--->
+
 # ⚙️ Configuração de Bean
 
 ```java
@@ -536,9 +523,7 @@ public class AppConfig {
 - Ou mova o método para outro bean.
 
 ---
-<!--
-class: small
--->
+
 
 # ⚠️ Rollback falha ao chamar método transacional via `this`
 
@@ -570,9 +555,7 @@ public class PedidoService {
 ```
 
 ---
-<!--
-class: small
--->
+
 # ⚠️ `Propagation.NOT_SUPPORTED` ignorado por chamada via this
 ### Método para chamada externa lenta que deveria suspender transação
 
