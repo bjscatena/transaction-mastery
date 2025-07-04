@@ -39,7 +39,7 @@ section.shrink table {
 
 ---
 
-# 🏦 **Problema clássico**
+# 🏦 Problema clássico
 
 1. Debitar R$100 da Conta A  
 2. Creditar R$100 na Conta B
@@ -48,7 +48,7 @@ section.shrink table {
 
 ---
 
-# ⚡ **@Transactional no Spring**
+# ⚡ @Transactional no Spring
 
 ```java
 @Service
@@ -62,7 +62,7 @@ public class TransferenciaService {
 ```
 ---
 
-# 🚀 **O Alicerce: ACID**
+# 🚀 O Alicerce: ACID
 
 O contrato de garantias de toda transação
 
@@ -104,7 +104,7 @@ Após o `COMMIT`, as mudanças se tornam **permanentes** e resistem a falhas, co
 
 ---
 
-# 🔍 **O "I" do ACID na Prática**
+# 🔍 O "I" do ACID na Prática
 ### Níveis de Isolamento
 
 Se o **Isolamento** existe, por que ainda temos problemas de concorrência?
@@ -184,7 +184,7 @@ class: shrink
 
 ---
 
-# 🛡️ **@Transactional: Isolation**
+# 🛡️ @Transactional: Isolation
 ### Controle de concorrência
 
 O `@Transactional` permite configurar o **nível de isolamento** da transação:
@@ -263,21 +263,6 @@ Propagation controla como uma transação se comporta quando um método transaci
 
 ---
 
-# 💡 Exemplo real: Quando usar REQUIRES_NEW
-### Processamento de pagamentos + registro de auditoria
-
-- Imagine um sistema que processa pagamentos em uma transação principal.  
-- Em paralelo, precisa registrar uma auditoria detalhada em banco, que não pode ser perdida.  
-- Usamos `REQUIRES_NEW` para o método de auditoria:
-
-  - A auditoria roda em uma nova transação independente.  
-  - Mesmo que o pagamento principal falhe e faça rollback, o registro de auditoria **é salvo**.  
-  - Garante rastreabilidade e compliance, mesmo em falhas.
-
-🔹 Evita perder logs importantes por falhas na transação principal.
-
----
-
 # 🤝 Propagation: SUPPORTS
 ### Participa se houver transação, senão roda sem
 
@@ -289,6 +274,21 @@ Propagation controla como uma transação se comporta quando um método transaci
 
 ---
 
+# ⚠️ Propagation: MANDATORY
+### Exige que uma transação já esteja ativa
+
+- O método **deve ser chamado dentro de uma transação existente**.  
+- Se não houver transação ativa, o Spring lança uma **IllegalTransactionStateException**.  
+- Útil para garantir que certas operações **não sejam executadas fora do contexto transacional**.  
+- Ajuda a impor regras rígidas sobre o fluxo transacional.
+
+### Quando usar?
+
+- Métodos que fazem parte obrigatória de uma transação maior.  
+- Serviços que não podem operar isoladamente.
+
+---
+
 # ⏸️ Propagation: NOT_SUPPORTED
 ### Sempre executa fora de uma transação
 
@@ -297,18 +297,6 @@ Propagation controla como uma transação se comporta quando um método transaci
 - Ideal para operações que não devem ser afetadas por transações, como chamadas externas ou tarefas que não precisam de atomicidade.
 
 🔹 Evita impactos da transação em operações específicas.
-
----
-
-# 📧 Exemplo real: Uso de NOT_SUPPORTED
-### Envio de e-mail fora da transação principal
-
-- Após uma transferência bancária concluída, o sistema envia um e-mail de confirmação.  
-- O método de envio é anotado com `@Transactional(propagation = NOT_SUPPORTED)`.  
-- Assim, o envio de e-mail **não roda dentro da transação do banco**.  
-- Se o envio falhar ou atrasar, a transação principal **não é afetada nem travada**.
-
-🔹 Evita que problemas externos prejudiquem operações críticas.
 
 ---
 
