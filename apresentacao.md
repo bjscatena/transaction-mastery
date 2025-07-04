@@ -451,8 +451,10 @@ try {
 
 ---
 
+<!--
+class: small
+-->
 # 💸 Exemplo básico: Débito e Crédito sem proxy
-### Implementação manual sem controle automático de transação
 
 ```java
 public class ContaService {
@@ -473,32 +475,10 @@ public class ContaService {
 ```
 
 ---
-
-# 🛡️ Proxy Manual: Simulando @Transactional
-### Proxy que gerencia transação envolvendo `transferir`
-
-```java
-
-@Primary
-@Service
-public class ContaServiceProxy extends ContaService {
-
-    @Override
-    public void transferir(Conta origem, Conta destino, BigDecimal valor) {
-        System.out.println("Iniciando transação manual...");
-        try {
-            super.transferir(origem, destino, valor);
-            System.out.println("Commit da transação");
-        } catch (Exception e) {
-            System.out.println("Rollback da transação");
-            throw e;
-        }
-    }
-}
-```
----
-# 🛡️ Proxy Manual Real: Gerenciando Transação com TransactionManager
-### Simulação próxima ao comportamento do Spring
+<!--
+class: small
+-->
+# 🛡️ Proxy Manual
 
 ```java
 
@@ -531,9 +511,10 @@ public class ContaServiceProxy extends ContaService {
 }
 ```
 ---
-
-# ⚙️ Configuração de Bean: Spring injeta o Proxy
-### Exemplo simples usando @Primary
+<!--
+class: small
+-->
+# ⚙️ Configuração de Bean
 
 ```java
 @Configuration
@@ -558,7 +539,9 @@ public class AppConfig {
 - Ou mova o método para outro bean.
 
 ---
-
+<!--
+class: small
+-->
 
 # ⚠️ Rollback falha ao chamar método transacional via `this`
 
@@ -590,7 +573,9 @@ public class PedidoService {
 ```
 
 ---
-
+<!--
+class: small
+-->
 # ⚠️ `Propagation.NOT_SUPPORTED` ignorado por chamada via this
 ### Método para chamada externa lenta que deveria suspender transação
 
