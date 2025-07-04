@@ -10,11 +10,11 @@ section.shrink table {
 }
 </style>
 
-![bg opacity:.5](https://github.com/user-attachments/assets/336c2570-5f05-422b-ba12-2a228d36ff9a)
+![bg opacity:.1](https://github.com/user-attachments/assets/336c2570-5f05-422b-ba12-2a228d36ff9a)
 
 # 🚀 @Transactional Mastery
 
-### Além do básico: ACID, Isolamento, Propagation e Proxy
+### Além do básico
 
 ### **Bruno Scatena**  
 🔗 [github.com/bjscatena](https://github.com/bjscatena)
