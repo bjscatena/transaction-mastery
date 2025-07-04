@@ -476,7 +476,6 @@ Limita tempo máximo para evitar travamentos no sistema.</li>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="36" data-class="small" data-theme="default" lang="C" class="small" style="--class:small;--theme:default;">
 <h1 id="%F0%9F%92%B8-exemplo-b%C3%A1sico-d%C3%A9bito-e-cr%C3%A9dito-sem-proxy"><img class="emoji" draggable="false" alt="💸" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f4b8.svg" data-marp-twemoji=""/> Exemplo básico: Débito e Crédito sem proxy</h1>
-<h3 id="implementa%C3%A7%C3%A3o-manual-sem-controle-autom%C3%A1tico-de-transa%C3%A7%C3%A3o">Implementação manual sem controle automático de transação</h3>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ContaService</span> {
 
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">debitar</span><span class="hljs-params">(Conta conta, BigDecimal valor)</span> {
@@ -495,30 +494,7 @@ Limita tempo máximo para evitar travamentos no sistema.</li>
 </code></pre>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="37" data-class="small" data-theme="default" lang="C" class="small" style="--class:small;--theme:default;">
-<h1 id="%F0%9F%9B%A1%EF%B8%8F-proxy-manual-simulando-transactional"><img class="emoji" draggable="false" alt="🛡️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f6e1.svg" data-marp-twemoji=""/> Proxy Manual: Simulando @Transactional</h1>
-<h3 id="proxy-que-gerencia-transa%C3%A7%C3%A3o-envolvendo-transferir">Proxy que gerencia transação envolvendo <code>transferir</code></h3>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-java">
-<span class="hljs-meta">@Primary</span>
-<span class="hljs-meta">@Service</span>
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ContaServiceProxy</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ContaService</span> {
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transferir</span><span class="hljs-params">(Conta origem, Conta destino, BigDecimal valor)</span> {
-        System.out.println(<span class="hljs-string">&quot;Iniciando transação manual...&quot;</span>);
-        <span class="hljs-keyword">try</span> {
-            <span class="hljs-built_in">super</span>.transferir(origem, destino, valor);
-            System.out.println(<span class="hljs-string">&quot;Commit da transação&quot;</span>);
-        } <span class="hljs-keyword">catch</span> (Exception e) {
-            System.out.println(<span class="hljs-string">&quot;Rollback da transação&quot;</span>);
-            <span class="hljs-keyword">throw</span> e;
-        }
-    }
-}
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="38" data-class="small" data-theme="default" lang="C" class="small" style="--class:small;--theme:default;">
-<h1 id="%F0%9F%9B%A1%EF%B8%8F-proxy-manual-real-gerenciando-transa%C3%A7%C3%A3o-com-transactionmanager"><img class="emoji" draggable="false" alt="🛡️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f6e1.svg" data-marp-twemoji=""/> Proxy Manual Real: Gerenciando Transação com TransactionManager</h1>
-<h3 id="simula%C3%A7%C3%A3o-pr%C3%B3xima-ao-comportamento-do-spring">Simulação próxima ao comportamento do Spring</h3>
+<h1 id="%F0%9F%9B%A1%EF%B8%8F-proxy-manual"><img class="emoji" draggable="false" alt="🛡️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f6e1.svg" data-marp-twemoji=""/> Proxy Manual</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-java">
 <span class="hljs-meta">@Primary</span>
 <span class="hljs-meta">@Service</span>
@@ -549,9 +525,8 @@ Limita tempo máximo para evitar travamentos no sistema.</li>
 }
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="39" data-class="small" data-theme="default" lang="C" class="small" style="--class:small;--theme:default;">
-<h1 id="%E2%9A%99%EF%B8%8F-configura%C3%A7%C3%A3o-de-bean-spring-injeta-o-proxy"><img class="emoji" draggable="false" alt="⚙️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2699.svg" data-marp-twemoji=""/> Configuração de Bean: Spring injeta o Proxy</h1>
-<h3 id="exemplo-simples-usando-primary">Exemplo simples usando @Primary</h3>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="38" data-class="small" data-theme="default" lang="C" class="small" style="--class:small;--theme:default;">
+<h1 id="%E2%9A%99%EF%B8%8F-configura%C3%A7%C3%A3o-de-bean"><img class="emoji" draggable="false" alt="⚙️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2699.svg" data-marp-twemoji=""/> Configuração de Bean</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-java"><span class="hljs-meta">@Configuration</span>
 <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AppConfig</span> {
 
@@ -562,7 +537,7 @@ Limita tempo máximo para evitar travamentos no sistema.</li>
 }
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="40" data-class="small" data-theme="default" lang="C" class="small" style="--class:small;--theme:default;">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="39" data-class="small" data-theme="default" lang="C" class="small" style="--class:small;--theme:default;">
 <h1 id="%E2%9A%A0%EF%B8%8F-por-que-chamadas-via-this-n%C3%A3o-funcionam"><img class="emoji" draggable="false" alt="⚠️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" data-marp-twemoji=""/> Por que chamadas via <code>this</code> não funcionam?</h1>
 <ul>
 <li>O Spring usa um proxy para aplicar <code>@Transactional</code>.</li>
@@ -576,7 +551,7 @@ Limita tempo máximo para evitar travamentos no sistema.</li>
 <li>Ou mova o método para outro bean.</li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="41" data-class="small" data-theme="default" lang="C" class="small" style="--class:small;--theme:default;">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="40" data-class="small" data-theme="default" lang="C" class="small" style="--class:small;--theme:default;">
 <h1 id="%E2%9A%A0%EF%B8%8F-rollback-falha-ao-chamar-m%C3%A9todo-transacional-via-this"><img class="emoji" draggable="false" alt="⚠️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" data-marp-twemoji=""/> Rollback falha ao chamar método transacional via <code>this</code></h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-java"><span class="hljs-meta">@Service</span>
 <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PedidoService</span> {
@@ -604,7 +579,7 @@ Limita tempo máximo para evitar travamentos no sistema.</li>
 }
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="42" data-class="small" data-theme="default" lang="C" class="small" style="--class:small;--theme:default;">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="41" data-class="small" data-theme="default" lang="C" class="small" style="--class:small;--theme:default;">
 <h1 id="%E2%9A%A0%EF%B8%8F-propagationnot_supported-ignorado-por-chamada-via-this"><img class="emoji" draggable="false" alt="⚠️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" data-marp-twemoji=""/> <code>Propagation.NOT_SUPPORTED</code> ignorado por chamada via this</h1>
 <h3 id="m%C3%A9todo-para-chamada-externa-lenta-que-deveria-suspender-transa%C3%A7%C3%A3o">Método para chamada externa lenta que deveria suspender transação</h3>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-java"><span class="hljs-meta">@Service</span>
@@ -631,7 +606,7 @@ Limita tempo máximo para evitar travamentos no sistema.</li>
 }
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="43" data-class="small" data-theme="default" lang="C" class="small" style="--class:small;--theme:default;">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="42" data-class="small" data-theme="default" lang="C" class="small" style="--class:small;--theme:default;">
 <h1 id="%F0%9F%9A%80-resumo--pr%C3%B3ximos-passos"><img class="emoji" draggable="false" alt="🚀" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f680.svg" data-marp-twemoji=""/> <strong>Resumo &amp; Próximos Passos</strong></h1>
 <ul>
 <li><code>@Transactional</code> é essencial para garantir <strong>atomicidade</strong> e <strong>consistência</strong></li>
@@ -640,14 +615,14 @@ Limita tempo máximo para evitar travamentos no sistema.</li>
 <li>Sempre valide a arquitetura para garantir que o <code>@Transactional</code> funcione como esperado</li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="44" data-class="small" data-theme="default" lang="C" class="small" style="--class:small;--theme:default;">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="43" data-class="small" data-theme="default" lang="C" class="small" style="--class:small;--theme:default;">
 <h3 id="pr%C3%B3ximos-passos">Próximos passos:</h3>
 <p><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" data-marp-twemoji=""/> Revisite seus serviços para evitar chamadas internas diretas<br />
 <img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" data-marp-twemoji=""/> Use self-injection ou separe métodos transacionais em beans distintos<br />
 <img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" data-marp-twemoji=""/> Configure isolamento e propagations conforme a necessidade do negócio<br />
 <img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" data-marp-twemoji=""/> Teste cenários de concorrência para evitar surpresas em produção</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="45" data-class="small" data-theme="default" lang="C" class="small" style="--class:small;--theme:default;">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="44" data-class="small" data-theme="default" lang="C" class="small" style="--class:small;--theme:default;">
 <h1 id="%F0%9F%8E%AF-obrigado"><img class="emoji" draggable="false" alt="🎯" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f3af.svg" data-marp-twemoji=""/> Obrigado!</h1>
 <p><strong>Bruno Scatena</strong></p>
 <p><a href="https://github.com/bjscatena">https://github.com/bjscatena</a></p>
