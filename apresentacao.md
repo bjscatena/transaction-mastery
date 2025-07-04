@@ -10,7 +10,7 @@ section.shrink table {
 }
 
 section.small {
-  font-size: 0.6em;
+  font-size: 0.8em;
 }  
 </style>
 
