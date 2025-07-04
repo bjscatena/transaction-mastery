@@ -1,6 +1,7 @@
 ---
 marp: true
 theme: default
+class: lead, center, middle
 ---
 
 <style>
@@ -9,12 +10,32 @@ section.shrink table {
 }
 </style>
 
-# 💡 **@Transactional Mastery**
-### Além do padrão
+![bg opacity:.5](https://github.com/user-attachments/assets/336c2570-5f05-422b-ba12-2a228d36ff9a)
 
-**Bruno Scatena**
+# 🚀 @Transactional Mastery
 
-[https://github.com/bjscatena](https://github.com/bjscatena)
+### Além do básico: ACID, Isolamento, Propagation e Proxy
+
+### **Bruno Scatena**  
+🔗 [github.com/bjscatena](https://github.com/bjscatena)
+
+---
+
+# 📋 O que vamos ver
+
+- Conceitos básicos e valores padrão do `@Transactional`  
+- Problemas de concorrência e níveis de isolamento  
+- Propagation: principais tipos e usos  
+- Como o Spring usa proxy para transações  
+- Por que chamadas internas via `this` falham  
+- Exemplos práticos e soluções
+
+---
+
+# 🔄 O que é uma Transação?
+
+- Uma **transação** é um conjunto de operações que são tratadas como uma única unidade lógica.
+- Em resumo, uma transação garante que o sistema fique em um estado correto mesmo diante de falhas.
 
 ---
 
@@ -46,8 +67,8 @@ public class TransferenciaService {
 
 Quando você usa `@Transactional` sem configurar nada, o Spring aplica:
 
-- **Propagation:** `REQUIRED` (usa a transação existente ou cria uma nova)  
 - **Isolation:** `DEFAULT` (usa o nível padrão do banco, ex: READ_COMMITTED no Oracle/MySQL)  
+- **Propagation:** `REQUIRED` (usa a transação existente ou cria uma nova)  
 - **readOnly:** `false` (transação permite leitura e escrita)  
 - **timeout:** indefinido (espera indefinidamente)  
 - **rollbackFor:** só rola rollback para exceções unchecked (RuntimeException)
@@ -212,4 +233,376 @@ O `@Transactional` permite configurar o **nível de isolamento** da transação:
 - **Não existe `REPEATABLE_READ`** no Oracle; ele vai direto para **`SERIALIZABLE`**.
 
 ⚠️ Isso deve ser considerado ao configurar isolamento no Spring com Oracle.
+
+---
+
+# 🔄 **Propagation**
+### O que é e por que importa?
+
+Propagation controla como uma transação se comporta quando um método transacional chama outro método transacional.
+
+➡️ Essencial para definir se a transação atual será usada, criada ou suspensa.
+
+---
+
+# 📋 **Principais tipos de Propagation**
+
+- `REQUIRED` (padrão)  
+- `REQUIRES_NEW`  
+- `SUPPORTS`  
+- `NOT_SUPPORTED`  
+- `MANDATORY`  
+- `NEVER`
+
+---
+
+# ✅ Propagation: REQUIRED
+### Usa a transação existente ou cria uma nova
+
+- Se já existe uma transação ativa, o método participa dela.  
+- Se não, cria uma nova transação.  
+- É o comportamento padrão do `@Transactional`.
+
+🔹 Ideal para garantir atomicidade em operações comuns.
+
+---
+
+# 🆕 Propagation: REQUIRES_NEW
+### Cria uma nova transação independente
+
+- Suspende a transação atual (se existir).  
+- Executa o método em uma transação nova e separada.  
+- Útil quando a operação precisa ser commitada imediatamente, mesmo que a transação original falhe.
+
+🔹 Exemplo: registrar logs ou auditorias independentemente da transação principal.
+
+---
+
+# 💡 Exemplo real: Quando usar REQUIRES_NEW
+### Processamento de pagamentos + registro de auditoria
+
+- Imagine um sistema que processa pagamentos em uma transação principal.  
+- Em paralelo, precisa registrar uma auditoria detalhada em banco, que não pode ser perdida.  
+- Usamos `REQUIRES_NEW` para o método de auditoria:
+
+  - A auditoria roda em uma nova transação independente.  
+  - Mesmo que o pagamento principal falhe e faça rollback, o registro de auditoria **é salvo**.  
+  - Garante rastreabilidade e compliance, mesmo em falhas.
+
+🔹 Evita perder logs importantes por falhas na transação principal.
+
+---
+
+# 🤝 Propagation: SUPPORTS
+### Participa se houver transação, senão roda sem
+
+- Se uma transação já está ativa, o método participa dela.  
+- Se não houver transação, o método executa sem transação.  
+- Útil para métodos que podem ser chamados tanto dentro quanto fora de contexto transacional.
+
+🔹 Flexível, evita erros e permite reutilização em diferentes cenários.
+
+---
+
+# ⏸️ Propagation: NOT_SUPPORTED
+### Sempre executa fora de uma transação
+
+- Se uma transação estiver ativa, ela será suspensa durante a execução do método.  
+- O método roda sem nenhuma transação.  
+- Ideal para operações que não devem ser afetadas por transações, como chamadas externas ou tarefas que não precisam de atomicidade.
+
+🔹 Evita impactos da transação em operações específicas.
+
+---
+
+# 📧 Exemplo real: Uso de NOT_SUPPORTED
+### Envio de e-mail fora da transação principal
+
+- Após uma transferência bancária concluída, o sistema envia um e-mail de confirmação.  
+- O método de envio é anotado com `@Transactional(propagation = NOT_SUPPORTED)`.  
+- Assim, o envio de e-mail **não roda dentro da transação do banco**.  
+- Se o envio falhar ou atrasar, a transação principal **não é afetada nem travada**.
+
+🔹 Evita que problemas externos prejudiquem operações críticas.
+
+---
+
+# 🚫 Propagation: NEVER
+### Nunca rode dentro de uma transação
+
+- Garante que o método **não execute dentro de uma transação ativa**.  
+- Se houver uma transação em andamento, o Spring lança uma exceção.  
+- Ideal para métodos que fazem chamadas externas lentas, como APIs remotas, evitando travar o pool de conexões.  
+- Ajuda a evitar bloqueios e lentidão causada por operações externas em transações.
+
+🔹 Use `NEVER` para garantir isolamento dessas operações.
+
+---
+
+# 📖 @Transactional: readOnly
+### Otimizando transações para consultas
+
+- `readOnly = true` indica que a transação será usada **apenas para leitura**.  
+- O banco pode otimizar a execução, por exemplo:  
+  - Desabilitando locks desnecessários  
+  - Melhorando desempenho  
+- Ajuda a evitar alterações acidentais nos dados durante a transação.  
+- Por padrão, `readOnly = false` (permite escrita).
+
+🔹 Use em métodos que só consultam dados.
+
+---
+
+# ⏱️ @Transactional: timeout
+### Controlando o tempo máximo da transação
+
+- Define o tempo máximo (em segundos) que a transação pode ficar ativa.  
+- Se o tempo for excedido, o Spring **faz rollback automático** da transação.  
+- Evita travamentos e bloqueios prolongados no banco.  
+- Útil para operações longas que podem travar recursos.
+
+🔹 Exemplo: `@Transactional(timeout = 5)` — transação expira após 5 segundos.
+
+---
+
+# 🔄 @Transactional: rollbackFor
+### Controlando quais exceções disparam rollback
+
+- Por padrão, o Spring faz rollback apenas para **exceções do tipo RuntimeException** (unchecked).  
+- Com `rollbackFor`, você pode especificar **quais exceções checked também devem causar rollback**.  
+- Útil para garantir consistência quando métodos lançam exceções verificadas.
+
+🔹 Exemplo: `@Transactional(rollbackFor = IOException.class)`
+
+---
+
+# 🛡️ O Padrão Proxy no Spring
+### Como o Spring implementa o `@Transactional`
+
+- O Spring utiliza o **padrão de projeto Proxy** para aplicar funcionalidades transversais como transações, cache e segurança.
+- Ao anotar um método com `@Transactional`, o Spring **não modifica a classe original**. Em vez disso, ele cria um **proxy** que envolve a classe original.
+- Esse proxy intercepta as chamadas aos métodos anotados, permitindo que o Spring gerencie a transação antes e depois da execução do método.
+
+🔹 Compreender o funcionamento do proxy é essencial para entender como o Spring gerencia transações e outras funcionalidades transversais.
+
+---
+
+# 🕰️ Antes do Spring: Gerenciamento Manual com JDBC
+### Exemplo básico de transação manual
+
+```java
+Connection conn = dataSource.getConnection();
+try {
+    conn.setAutoCommit(false);
+
+    // Debitar valor
+    debitarConta(conn, contaOrigem, valor);
+
+    // Creditar valor
+    creditarConta(conn, contaDestino, valor);
+
+    conn.commit();
+} catch (SQLException e) {
+    conn.rollback();
+    throw e;
+} finally {
+    conn.close();
+}
+```
+
+---
+
+# 💸 Exemplo básico: Débito e Crédito sem proxy
+### Implementação manual sem controle automático de transação
+
+```java
+public class ContaService {
+
+    private void debitar(Conta conta, BigDecimal valor) {
+        conta.setSaldo(conta.getSaldo().subtract(valor));
+    }
+
+    private void creditar(Conta conta, BigDecimal valor) {
+        conta.setSaldo(conta.getSaldo().add(valor));
+    }
+
+    public void transferir(Conta origem, Conta destino, BigDecimal valor) {
+        debitar(origem, valor);
+        creditar(destino, valor);
+    }
+}
+```
+
+---
+
+# 🛡️ Proxy Manual: Simulando @Transactional
+### Proxy que gerencia transação envolvendo `transferir`
+
+```java
+
+@Primary
+@Service
+public class ContaServiceProxy extends ContaService {
+
+    @Override
+    public void transferir(Conta origem, Conta destino, BigDecimal valor) {
+        System.out.println("Iniciando transação manual...");
+        try {
+            super.transferir(origem, destino, valor);
+            System.out.println("Commit da transação");
+        } catch (Exception e) {
+            System.out.println("Rollback da transação");
+            throw e;
+        }
+    }
+}
+```
+---
+# 🛡️ Proxy Manual Real: Gerenciando Transação com TransactionManager
+### Simulação próxima ao comportamento do Spring
+
+```java
+
+@Primary
+@Service
+public class ContaServiceProxy extends ContaService {
+
+    private PlatformTransactionManager transactionManager;
+
+    public ContaServiceProxy(PlatformTransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
+    }
+
+    @Override
+    public void transferir(Conta origem, Conta destino, BigDecimal valor) {
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+        def.setName("transferirTransaction");
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+
+        TransactionStatus status = transactionManager.getTransaction(def);
+
+        try {
+            super.transferir(origem, destino, valor);
+            transactionManager.commit(status);
+        } catch (Exception e) {
+            transactionManager.rollback(status);
+            throw e;
+        }
+    }
+}
+```
+---
+
+# ⚙️ Configuração de Bean: Spring injeta o Proxy
+### Exemplo simples usando @Primary
+
+```java
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public ContaService contaService(PlatformTransactionManager txManager) {        
+        return new ContaServiceProxy(txManager);
+    }
+}
+```
+---
+
+# ⚠️ Por que chamadas via `this` não funcionam?
+- O Spring usa um proxy para aplicar `@Transactional`.
+- Chamadas externas passam pelo proxy e funcionam.
+- Chamadas internas via `this` **não passam pelo proxy**.
+- Resultado: anotações como `@Transactional` não são aplicadas.
+  
+✅ Para evitar isso:  
+- Use self-injection (`@Autowired private SeuService self;`) e chame `self.metodo()`.  
+- Ou mova o método para outro bean.
+
+---
+
+
+# ⚠️ Rollback falha ao chamar método transacional via `this`
+
+```java
+@Service
+public class PedidoService {
+
+    public void processarPedido(Pedido pedido) {
+        // método público não transacional
+
+        // chama método transacional via this — NÃO passa pelo proxy
+        this.salvarPedido(pedido);
+    }
+
+    @Transactional
+    public void salvarPedido(Pedido pedido) {
+        // Salva o pedido no banco
+        pedidoRepository.save(pedido);
+
+        // Atualiza o estoque
+        estoqueService.diminuirEstoque(pedido.getProdutoId(), pedido.getQuantidade());
+
+        // Validação crítica
+        if (pedido.getQuantidade() <= 0) {
+            throw new RuntimeException("Quantidade inválida!");
+        }
+    }
+}
+```
+
+---
+
+# ⚠️ `Propagation.NOT_SUPPORTED` ignorado por chamada via this
+### Método para chamada externa lenta que deveria suspender transação
+
+```java
+@Service
+public class PagamentoService {
+
+    @Transactional
+    public void processarPagamento(Pagamento pagamento) {
+        debitarConta(pagamento.getContaOrigem(), pagamento.getValor());
+
+        // Chamada via this ignora o comportamento NOT_SUPPORTED
+        this.enviarSmsConfirmacao(pagamento.getTelefoneCliente(), pagamento.getValor());
+    }
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public void enviarSmsConfirmacao(String telefone, BigDecimal valor) {
+        // Chamada externa lenta para serviço de SMS
+        smsGateway.enviarSms(telefone, "Pagamento de R$" + valor + " realizado com sucesso.");
+        System.out.println("SMS de confirmação enviado para " + telefone);
+    }
+
+    private void debitarConta(Conta conta, BigDecimal valor) {
+        // lógica de débito na conta
+    }
+}
+```
+---
+
+# 🚀 **Resumo & Próximos Passos**
+
+- `@Transactional` é essencial para garantir **atomicidade** e **consistência**  
+- Entender **isolamento** e **propagation** evita problemas comuns em concorrência  
+- O Spring usa **proxy** para aplicar transações, atenção às chamadas internas via `this`  
+- Sempre valide a arquitetura para garantir que o `@Transactional` funcione como esperado  
+
+---
+
+### Próximos passos:
+
+✅ Revisite seus serviços para evitar chamadas internas diretas  
+✅ Use self-injection ou separe métodos transacionais em beans distintos  
+✅ Configure isolamento e propagations conforme a necessidade do negócio  
+✅ Teste cenários de concorrência para evitar surpresas em produção
+
+---
+
+# 🎯 Obrigado!
+
+**Bruno Scatena**
+
+[https://github.com/bjscatena](https://github.com/bjscatena)
+
 
