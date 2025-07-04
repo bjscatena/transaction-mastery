@@ -11,6 +11,10 @@ code {
 pre code {
   font-size: 0.7em;
 }
+
+table {
+  font-size: 0.8em;
+}  
 </style>
 
 ![bg right](https://github.com/user-attachments/assets/d8a14318-8ca7-4fe1-b364-2e05db97636f)
@@ -556,8 +560,7 @@ public class PedidoService {
 
 ---
 
-# ⚠️ `Propagation.NOT_SUPPORTED` ignorado por chamada via this
-### Método para chamada externa lenta que deveria suspender transação
+# ⚠️ `Propagation.NOT_SUPPORTED` ignorado
 
 ```java
 @Service
