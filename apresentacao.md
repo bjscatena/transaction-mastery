@@ -376,6 +376,57 @@ Quando você usa `@Transactional` sem configurar nada, o Spring aplica:
 
 ---
 
+# 🚀 Casos Reais de Uso do `@Transactional`
+
+<style>
+ul.custom-list {
+  list-style: none;
+  padding-left: 0;
+}
+ul.custom-list li {
+  margin-bottom: 1.2em;
+  font-size: 1.1em;
+}
+.code {
+  background: #272822;
+  color: #f8f8f2;
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+}
+.highlight {
+  color: #f39c12;
+  font-weight: bold;
+}
+</style>
+
+<ul class="custom-list">
+
+<li>🏦 <span class="highlight">Transferência bancária</span><br>
+<span class="code">@Transactional(propagation = REQUIRED)</span><br>
+Garantia de atomicidade — rollback se falhar.</li>
+
+<li>📧 <span class="highlight">Envio de e-mail</span><br>
+<span class="code">@Transactional(propagation = NOT_SUPPORTED)</span><br>
+Evita travar a transação principal por operações externas lentas.</li>
+
+<li>📝 <span class="highlight">Registro de auditoria</span><br>
+<span class="code">@Transactional(propagation = REQUIRES_NEW)</span><br>
+Persistência independente, mesmo se a transação principal falhar.</li>
+
+<li>📊 <span class="highlight">Consulta de relatórios</span><br>
+<span class="code">@Transactional(readOnly = true)</span><br>
+Otimização para consultas, evitando locks desnecessários.</li>
+
+<li>⏳ <span class="highlight">Processamento batch lento</span><br>
+<span class="code">@Transactional(timeout = 300)</span><br>
+Limita tempo máximo para evitar travamentos no sistema.</li>
+
+</ul>
+
+---
+
 # 🛡️ O Padrão Proxy no Spring
 ### Como o Spring implementa o `@Transactional`
 
