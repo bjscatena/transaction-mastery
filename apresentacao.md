@@ -17,13 +17,13 @@ table {
 }  
 
 h1 {
-  font-size: 1.8em; /* padrão ~2em, ajuste conforme o desejado */
+  font-size: 1.6em; /* padrão ~2em, ajuste conforme o desejado */
 }
 h2 {
-  font-size: 1.4em; /* padrão ~1.5em */
+  font-size: 1.3em; /* padrão ~1.5em */
 }
 h3 {
-  font-size: 1.1em; /* padrão ~1.17em */
+  font-size: 1em; /* padrão ~1.17em */
 }
 </style>
 
