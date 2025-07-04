@@ -101,6 +101,11 @@ Se o **Isolamento** existe, por que ainda temos problemas de concorrência?
 
 ![bg left:40%](https://github.com/user-attachments/assets/fe4e61e4-2045-44ef-a169-e7368dfa716e)
 
+---
+
+# ⚠️ Anomalias em Transações
+
+Quando múltiplas transações rodam simultaneamente, podem surgir problemas de **concorrência** que afetam a **consistência** dos dados.
 
 ---
 
