@@ -48,20 +48,6 @@ section.shrink table {
 
 ---
 
-# ⚡ @Transactional no Spring
-
-```java
-@Service
-public class TransferenciaService {
-
-    @Transactional
-    public void executar(TransferenciaDTO dto) {
-        // lógica para debitar e creditar
-    }
-}
-```
----
-
 # 🚀 O Alicerce: ACID
 
 O contrato de garantias de toda transação
